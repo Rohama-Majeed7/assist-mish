@@ -15,12 +15,12 @@ from torch import Tensor
 
 
 class GraphAttentionLayer(nn.Module):
-    def _init_(self, in_dim, out_dim, **kwargs):
-        super()._init_()
+    def __init__(self, in_dim, out_dim, **kwargs):
+        super().__init__()
 
         # attention map
         self.att_proj = nn.Linear(in_dim, out_dim)
-        self.att_weight = self._init_new_params(out_dim, 1)
+        self.att_weight = self.__init__new_params(out_dim, 1)
 
         # project
         self.proj_with_att = nn.Linear(in_dim, out_dim)
@@ -105,15 +105,15 @@ class GraphAttentionLayer(nn.Module):
 
         return x
 
-    def _init_new_params(self, *size):
+    def __init__new_params(self, *size):
         out = nn.Parameter(torch.FloatTensor(*size))
         nn.init.xavier_normal_(out)
         return out
 
 
 class HtrgGraphAttentionLayer(nn.Module):
-    def _init_(self, in_dim, out_dim, **kwargs):
-        super()._init_()
+    def __init__(self, in_dim, out_dim, **kwargs):
+        super().__init__()
 
         self.proj_type1 = nn.Linear(in_dim, in_dim)
         self.proj_type2 = nn.Linear(in_dim, in_dim)
@@ -122,10 +122,10 @@ class HtrgGraphAttentionLayer(nn.Module):
         self.att_proj = nn.Linear(in_dim, out_dim)
         self.att_projM = nn.Linear(in_dim, out_dim)
 
-        self.att_weight11 = self._init_new_params(out_dim, 1)
-        self.att_weight22 = self._init_new_params(out_dim, 1)
-        self.att_weight12 = self._init_new_params(out_dim, 1)
-        self.att_weightM = self._init_new_params(out_dim, 1)
+        self.att_weight11 = self.__init__new_params(out_dim, 1)
+        self.att_weight22 = self.__init__new_params(out_dim, 1)
+        self.att_weight12 = self.__init__new_params(out_dim, 1)
+        self.att_weightM = self.__init__new_params(out_dim, 1)
 
         # project
         self.proj_with_att = nn.Linear(in_dim, out_dim)
@@ -278,15 +278,15 @@ class HtrgGraphAttentionLayer(nn.Module):
 
         return x
 
-    def _init_new_params(self, *size):
+    def __init__new_params(self, *size):
         out = nn.Parameter(torch.FloatTensor(*size))
         nn.init.xavier_normal_(out)
         return out
 
 
 class GraphPool(nn.Module):
-    def _init_(self, k: float, in_dim: int, p: Union[float, int]):
-        super()._init_()
+    def __init__(self, k: float, in_dim: int, p: Union[float, int]):
+        super().__init__()
         self.k = k
         self.sigmoid = nn.Sigmoid()
         self.proj = nn.Linear(in_dim, 1)
@@ -333,7 +333,7 @@ class CONV(nn.Module):
     def to_hz(mel):
         return 700 * (10**(mel / 2595) - 1)
 
-    def _init_(self,
+    def __init__(self,
                  out_channels,
                  kernel_size,
                  sample_rate=16000,
@@ -344,7 +344,7 @@ class CONV(nn.Module):
                  bias=False,
                  groups=1,
                  mask=False):
-        super()._init_()
+        super().__init__()
         if in_channels != 1:
 
             msg = "SincConv only support one input channel (here, in_channels = {%i})" % (
@@ -413,8 +413,8 @@ class CONV(nn.Module):
 
 
 class Residual_block(nn.Module):
-    def _init_(self, nb_filts, first=False):
-        super()._init_()
+    def __init__(self, nb_filts, first=False):
+        super().__init__()
         self.first = first
 
         if not self.first:
@@ -469,8 +469,8 @@ class Residual_block(nn.Module):
         return out
 
 class AttentiveStatsPool(nn.Module):
-    def _init_(self, in_dim, bottleneck_dim=128):
-        super()._init_()
+    def __init__(self, in_dim, bottleneck_dim=128):
+        super().__init__()
         # Attention mechanism
         self.linear1 = nn.Conv1d(in_dim, bottleneck_dim, kernel_size=1)  # equals W*x + b
         self.activation = nn.Tanh()
@@ -495,8 +495,8 @@ class AttentiveStatsPool(nn.Module):
 
 
 class Model(nn.Module):
-    def _init_(self, d_args):
-        super()._init_()
+    def __init__(self, d_args):
+        super().__init__()
 
         self.d_args = d_args
         filts = d_args["filts"]
